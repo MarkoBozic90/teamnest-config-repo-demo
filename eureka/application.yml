@@ -1,17 +1,78 @@
+# src/main/resources/application.yml
 server:
   port: 8761
+  shutdown: graceful
+
 spring:
   application:
     name: eureka
+  security:
+    user:
+      name: ${EUREKA_USER:eureka}
+      password: ${EUREKA_PASS:changeme}
+      roles: ADMIN
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,refresh
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include: readinessState, ping, diskSpace
+        liveness:
+          include: livenessState, ping
+  observations:
+    key-values:
+      application: ${spring.application.name}
+  tracing:
+    sampling:
+      probability: 1.0
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
 eureka:
-  instance:
-    hostname: localhost
   client:
     register-with-eureka: false
     fetch-registry: false
+    # When clustering in Docker, set via env EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://eureka:${EUREKA_PASS:changeme}@localhost:8761/eureka/}
+  server:
+    eviction-interval-timer-in-ms: 60000
+    renewal-percent-threshold: 0.85
+  instance:
+    hostname: ${EUREKA_HOST:localhost}
+    prefer-ip-address: ${EUREKA_PREFER_IP:false}
+    metadata-map:
+      zone: ${ZONE:primary}
+      version: 1.0.0
 
 logging:
   level:
-    org.springframework.cloud.config: DEBUG
+    com.netflix: WARN
+    org.springframework.cloud: INFO
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+server:
+  tomcat:
+    max-http-form-post-size: 10MB
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+  instance:
+    prefer-ip-address: true
+    hostname: ${EUREKA_HOST:${HOSTNAME:localhost}}
