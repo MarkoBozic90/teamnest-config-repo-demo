@@ -61,7 +61,7 @@
 #        waitDurationInOpenState: 5s
 
 server:
-  port: 1111
+  port: 8080
   compression:
     enabled: true
 
