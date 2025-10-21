@@ -8,8 +8,8 @@ spring:
     name: eureka
   security:
     user:
-      name: ${EUREKA_USER:eureka}
-      password: ${EUREKA_PASS:changeme}
+      name: ${EUREKA_USER}
+      password: ${EUREKA_PASS}
       roles: ADMIN
 
 management:
