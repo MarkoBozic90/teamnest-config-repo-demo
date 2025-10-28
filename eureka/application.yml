@@ -12,8 +12,15 @@ spring:
       password: ${EUREKA_PASS:eureka}
       roles: ADMIN
     oauth2:
-      resourceserver:
-        jwt:
+      registration:
+        keycloak:
+          client-id: eureka-ui
+          client-secret: rmi3U6PaTQvbcre9POxV78hRZfJ5vPsD
+          scope: openid,profile
+          authorization-grant-type: authorization_code
+          redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+      provider:
+        keycloak:
           issuer-uri: https://localhost:8081/realms/teamnest-demo
 
 
