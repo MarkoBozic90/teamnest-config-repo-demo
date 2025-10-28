@@ -1,4 +1,4 @@
-# src/main/resources/application.yml
+# src/GIT REPO /resources/application.yml
 server:
   port: 8761
   shutdown: graceful
@@ -8,9 +8,14 @@ spring:
     name: eureka
   security:
     user:
-      name: ${EUREKA_USER:eureka}
-      password: ${EUREKA_PASS:changeme}
+      name: ${EUREKA_USER}
+      password: ${EUREKA_PASS}
       roles: ADMIN
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://localhost:8081/realms/teamnest-demo
+
 
 management:
   endpoints:
