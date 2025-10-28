@@ -7,28 +7,22 @@ spring:
   application:
     name: eureka
   security:
-    user:
-      name: ${EUREKA_USER:eureka}
-      password: ${EUREKA_PASS:eureka}
-      roles: ADMIN
     oauth2:
-      registration:
-        keycloak:
-          client-id: eureka-ui
-          client-secret: rmi3U6PaTQvbcre9POxV78hRZfJ5vPsD
-          scope: openid,profile
-          authorization-grant-type: authorization_code
-          redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
-      provider:
-        keycloak:
-          # DEV: koristi http ako nemaš validan cert na localhostu
-          issuer-uri: http://localhost:8081/realms/teamnest-demo
-
+      client:
+        registration:
+          keycloak:
+            client-id: eureka-ui
+            client-secret: ${KC_UI_CLIENT_SECRET:dev-secret}
+            scope: openid,profile
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8081/realms/teamnest-demo  # DEV: http, bez TLS
       resourceserver:
         jwt:
-          # za S2S Bearer – dovoljno je issuer-uri
           issuer-uri: http://localhost:8081/realms/teamnest-demo
-management:
+
   endpoints:
     web:
       exposure:
