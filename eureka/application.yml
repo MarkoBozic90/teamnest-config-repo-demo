@@ -21,9 +21,13 @@ spring:
           redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
       provider:
         keycloak:
-          issuer-uri: https://localhost:8081/realms/teamnest-demo
+          # DEV: koristi http ako nemaš validan cert na localhostu
+          issuer-uri: http://localhost:8081/realms/teamnest-demo
 
-
+      resourceserver:
+        jwt:
+          # za S2S Bearer – dovoljno je issuer-uri
+          issuer-uri: http://localhost:8081/realms/teamnest-demo
 management:
   endpoints:
     web:
