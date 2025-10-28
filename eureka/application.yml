@@ -8,8 +8,8 @@ spring:
     name: eureka
   security:
     user:
-      name: ${EUREKA_USER}
-      password: ${EUREKA_PASS}
+      name: ${EUREKA_USER:eureka}
+      password: ${EUREKA_PASS:eureka}
       roles: ADMIN
     oauth2:
       resourceserver:
