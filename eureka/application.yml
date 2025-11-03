@@ -12,10 +12,11 @@ spring:
         registration:
           keycloak:
             client-id: eureka-ui
-            client-secret: ${KC_UI_CLIENT_SECRET:dev-secret}
-            scope: openid,profile
+            client-secret: ${KC_UI_CLIENT_SECRET:rmi3U6PaTQvbcre9POxV78hRZfJ5vPsD}
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            client-authentication-method: client_secret_basic
+            scope: openid,profile
         provider:
           keycloak:
             issuer-uri: http://localhost:8081/realms/teamnest-demo  # DEV: http, bez TLS
